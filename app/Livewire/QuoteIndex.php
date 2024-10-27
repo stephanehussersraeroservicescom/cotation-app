@@ -38,18 +38,6 @@ class QuoteIndex extends Component
         return redirect()->route('quote.preview', $id);
     }
 
-    public function emailQuote($id)
-    {
-        $quote = Quote::with('quoteLines.product')->findOrFail($id);
-        $SAE = $quote->SAE;
-        $customer_name = $quote->customer_name;
-        $date_entry = $quote->date_entry;
-        $pdf = PDF::loadView('quotes.pdf', compact('quote'))->setPaper('a4')->output();
-
-        $fileName = 'quote  ' . $SAE .' '.$id.' - '.$customer_name.' -- '.$date_entry.'.pdf';
-        $fromAddress = auth()->user()->email; 
-        Mail::to($quote->customer_email)->send(new QuoteMail($quote, $pdf, $fileName, $fromAddress));
-    }
 
     public function render()
         {
@@ -67,9 +55,9 @@ class QuoteIndex extends Component
                 $quotes->where('customer_name', 'like', '%'.$this->searchCustomerName.'%');
             }
 
-            if ($this->searchDateEntry) {
-                $quotes->whereDate('date_entry', $this->searchDateEntry);
-            }
+            // if ($this->searchDateEntry) {
+            //     $quotes->whereDate('date_entry', $this->searchDateEntry);
+            // }
 
             if ($this->searchStatus) {
                 $quotes->where('comments', 'like', '%'.$this->searchStatus.'%');

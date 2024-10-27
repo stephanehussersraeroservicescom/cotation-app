@@ -1,8 +1,8 @@
 <div>
-    <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-            <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quote ID</th>
+    <table class="min-w-full divide-y divide-gray-500  ">
+        <thead class="bg-gray-50 ">
+            <tr class="">
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ">Quote ID</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SAE</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer Name</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Entry</th>
@@ -14,19 +14,20 @@
             <!-- Livewire Search Row -->
             <tr>
                 <td class="px-6 py-4">
-                    <input type="text" wire:model.live="searchId" placeholder="Search ID" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
+                    <input type="text" wire:model.live="searchId" placeholder="Search ID" class="mt-1 block w-full border border-gray-500 rounded-md shadow-sm">
                 </td>
                 <td class="px-6 py-4">
-                    <input type="text" wire:model.live="searchSae" placeholder="Search SAE" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
+                    <input type="text" wire:model.live="searchSae" placeholder="Search SAE" class="mt-1 block w-full border border-gray-500 rounded-md shadow-sm">
                 </td>
                 <td class="px-6 py-4">
-                    <input type="text" wire:model.live="searchCustomerName" placeholder="Search Customer" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
+                    <input type="text" wire:model.live="searchCustomerName" placeholder="Search Customer" class="mt-1 block w-full border border-gray-500 rounded-md shadow-sm">
                 </td>
                 <td class="px-6 py-4">
-                    <input type="date" wire:model.change="searchDateEntry" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
+                    
+                    {{-- <input type="date" wire:model.change="searchDateEntry" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"> --}}
                 </td>
                 <td class="px-6 py-4">
-                    <input type="text" wire:model.live="searchStatus" placeholder="Search Status" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
+                    <input type="text" wire:model.live="searchStatus" placeholder="Search Comment" class="mt-1 block w-full border border-gray-500 rounded-md shadow-sm">
                 </td>
                 <td class="px-6 py-4">
                     <!-- Empty for actions -->
@@ -41,9 +42,9 @@
                 <td class="px-6 py-4 whitespace-nowrap">{{ $quote->date_entry }}</td>
                 <td class="px-6 py-4 whitespace-nowrap max-w-xs truncate">{{ $quote->comments }}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-center">
-                    <x-button wire:click="print({{ $quote->id }})"> Print </x-button>
-                    <x-button wire:click="emailQuote({{ $quote->id }})"> Email </x-button> 
-                    <x-button wire:click="previewEmail({{ $quote->id }})"> Preview Email </x-button>                   
+                    <x-button-light wire:click="print({{ $quote->id }})"> Print </x-button-light>
+                    <x-button-light wire:click="editQuote({{ $quote->id }})"> Edit </x-button-light> 
+                    <x-button-light wire:click="previewEmail({{ $quote->id }})"> Preview Email </x-button-light>                   
                 </td>
                 </tr>
             @endforeach
