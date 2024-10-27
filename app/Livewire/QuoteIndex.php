@@ -5,7 +5,6 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Quote;
 use App\Models\QuoteLine;
-//use Barryvdh\DomPDF\Facade as PDF;
 use PDF;
 use Mail;
 use App\Mail\QuoteMail;
@@ -48,8 +47,8 @@ class QuoteIndex extends Component
         $pdf = PDF::loadView('quotes.pdf', compact('quote'))->setPaper('a4')->output();
 
         $fileName = 'quote  ' . $SAE .' '.$id.' - '.$customer_name.' -- '.$date_entry.'.pdf';
-
-        Mail::to($quote->customer_email)->send(new QuoteMail($quote, $pdf, $fileName));
+        $fromAddress = auth()->user()->email; 
+        Mail::to($quote->customer_email)->send(new QuoteMail($quote, $pdf, $fileName, $fromAddress));
     }
 
     public function render()

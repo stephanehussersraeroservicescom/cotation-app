@@ -18,25 +18,38 @@ class QuoteMail extends Mailable
     public $quote;
     public $pdf;
     public $fileName;
+    public $fromAddress;
 
-    public function __construct(Quote $quote, $pdf, $fileName)
+    public function __construct($quote, $pdf, $fileName, $fromAddress)
     {
         $this->quote = $quote;
         $this->pdf = $pdf;
         $this->fileName = $fileName;
+        $this->fromAddress = $fromAddress;
     }
 
+    // public function build()
+    // {
+    //     return $this->view('emails.quote')
+    //                 ->subject('Your Quote from Tapis Corporation')
+    //                 ->attachData($this->pdf, $this->fileName, [
+    //                     'mime' => 'application/pdf',
+    //                 ]);
+    // }
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
     public function build()
     {
-//        dd($this->fileName);
-        return $this->view('emails.quote')
-                    ->subject('Your Quote from Tapis Corporation')
+        return $this->from($this->fromAddress)
+                    ->view('emails.quote')
+                    ->with(['quote' => $this->quote])
                     ->attachData($this->pdf, $this->fileName, [
                         'mime' => 'application/pdf',
                     ]);
     }
-
-
 
     /**
      * Get the message envelope.

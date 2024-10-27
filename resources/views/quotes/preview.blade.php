@@ -13,7 +13,7 @@
     <p>Tapis Corporation</p>
 
     <h2>Attachment</h2>
-    <embed src="data:application/pdf;base64,{{ base64_encode($pdf) }}" width="600" height="400" type="application/pdf">
+    <embed src="data:application/pdf;base64,{{ base64_encode($pdf) }}" width="1200" height="800" type="application/pdf">
 
     <form action="{{ route('quote.send', $quote->id) }}" method="POST">
         @csrf
