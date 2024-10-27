@@ -1,6 +1,6 @@
-<div class="sm:col-span-3">
-  <label for="{{ $id }}" class="block text-sm font-medium leading-6 text-gray-900">{{ $label }}</label>
-  <div class="mt-2">
-      <input type="text" wire:model="{{ $model }}" name="{{ $name }}" id="{{ $id }}" autocomplete="{{ $autocomplete }}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-  </div>
+@props(['type' => 'text', 'for', 'label', 'wiremodel', 'currentValue'=>false])
+<div class="mx-20 my-8">
+    <label for="{{$for}}" class="mt-8 w-full font-medium text-gray-700">{{$label}} : {{$currentValue}}</label>
+    <input  type="{{$type}}" id="{{$for}}" wire:model="{{$wiremodel}}" class="my-2 w-3/4 block border-gray-500 border-2 rounded-md">
+    @error($for) <span class="error">{{ $message }}</span> @enderror
 </div>

@@ -23,11 +23,10 @@
                     <input type="text" wire:model.live="searchCustomerName" placeholder="Search Customer" class="mt-1 block w-full border border-gray-500 rounded-md shadow-sm">
                 </td>
                 <td class="px-6 py-4">
-                    
-                    {{-- <input type="date" wire:model.change="searchDateEntry" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"> --}}
+
                 </td>
                 <td class="px-6 py-4">
-                    <input type="text" wire:model.live="searchStatus" placeholder="Search Comment" class="mt-1 block w-full border border-gray-500 rounded-md shadow-sm">
+                    <input type="text" wire:model.live="searchComments" placeholder="Search Comment" class="mt-1 block w-full border border-gray-500 rounded-md shadow-sm">
                 </td>
                 <td class="px-6 py-4">
                     <!-- Empty for actions -->
@@ -50,4 +49,5 @@
             @endforeach
         </tbody>
     </table>
+       
 </div>

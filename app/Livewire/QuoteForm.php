@@ -10,6 +10,7 @@ use Illuminate\Support\Carbon;
 
 class QuoteForm extends Component
 {
+    public $id;
     public $SAE;
     public $customer_name;
     public $customer_email;
@@ -17,18 +18,27 @@ class QuoteForm extends Component
     public $date_valid;
     public $comments;
     
-
+    public $quote;
     public $quoteLines = [];
-    public $products; // To store product options for dropdown
+    public $products = [];
+    public $isEdit = false;
 
-    public function mount()
-    {
+
+    public function mount($id = null)
+    {  
+        if ($id) {
+            $this->quote = Quote::with('quoteLines.product')->findOrFail($id);
+            $this->quoteLines = $this->quote->quoteLines->toArray();
+            $this->isEdit = true;
+        } else {
+            $this->quote = new Quote();
+            $this->quoteLines = [];
+            $this->isEdit = false;
+            //dd($this->quoteLines);
+        }
         // Load all products for the dropdown
-        $this->products = Product::all();
-
-        // Initialize the first product line with default values
-        $this->quoteLines[] = ['product_id' => null, 'part_number' => '', 'UOM' => 'LY', 'price' => 0, 'MOQ' => 1];
-
+        $this->products = Product::all()->toArray();
+        //dd($this->products);
         // Set default values for date_entry (today) and date_valid (1 month from today)
         $this->date_entry = Carbon::today()->toDateString();
         $this->date_valid = Carbon::today()->addMonth()->toDateString();
@@ -37,7 +47,7 @@ class QuoteForm extends Component
     public function addQuoteLine()
     {
         // Add a new empty product line
-        $this->quoteLines[] = ['product_id' => null, 'part_number' => '', 'UOM' => 'LY', 'price' => 0, 'MOQ' => 1];
+        $this->quoteLines[] = [];
     }
 
     public function removeQuoteLine($index)

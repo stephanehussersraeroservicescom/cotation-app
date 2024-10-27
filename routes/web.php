@@ -30,11 +30,12 @@ Route::get('/form', function () {
     return view('components.elements.form');
 });
 
+Route::get('/quote-form', QuoteForm::class)->name('quotes.form');
+Route::get('/quote-form/{id?}', QuoteForm::class)->name('quote.form');
 
 Route::get('/quote/{id}/preview', [QuoteController::class, 'preview'])->name('quote.preview');
 Route::post('/quote/{id}/send', [QuoteController::class, 'send'])->name('quote.send');
 
-Route::get('/quotes/create', QuoteForm::class)->name('quotes.create');
 
 Route::get('/quotes/{id}', ShowQuote::class)->name('quote.show');
 

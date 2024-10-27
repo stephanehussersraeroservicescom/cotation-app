@@ -5,6 +5,8 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Quote;
 use App\Models\QuoteLine;
+use App\Models\Product;
+use App\Livewire\QuoteForm;
 use PDF;
 use Mail;
 use App\Mail\QuoteMail;
@@ -16,9 +18,24 @@ class QuoteIndex extends Component
     public $searchId;
     public $searchSae;
     public $searchCustomerName;
-    public $searchDateEntry;
-    public $searchStatus;
-    Public $header='test';
+    public $searchComments;
+
+  
+
+
+
+    //************************************************************************** */
+    public function editQuote($id)
+    {
+        return redirect()->route('quote.form', $id);
+    }
+
+
+
+
+    /************************************************************************
+    *PRINT PDF quote**/
+
 
     public function print($id)
     {
@@ -33,10 +50,16 @@ class QuoteIndex extends Component
         }, 'quote  ' . $SAE .' '.$id.' - '.$customer_name.' -- '.$date_entry.'.pdf');
     }
 
+
+    /************************************************************************#
+    **Preview before sending */
+
     public function previewEmail($id)
     {
         return redirect()->route('quote.preview', $id);
     }
+
+    
 
 
     public function render()
@@ -55,12 +78,9 @@ class QuoteIndex extends Component
                 $quotes->where('customer_name', 'like', '%'.$this->searchCustomerName.'%');
             }
 
-            // if ($this->searchDateEntry) {
-            //     $quotes->whereDate('date_entry', $this->searchDateEntry);
-            // }
 
-            if ($this->searchStatus) {
-                $quotes->where('comments', 'like', '%'.$this->searchStatus.'%');
+            if ($this->searchComments) {
+                $quotes->where('comments', 'like', '%'.$this->searchComments.'%');
             }
 
             return view('livewire.quote-index', [
