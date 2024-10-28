@@ -2,7 +2,7 @@
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create Quote') }}
+            {{ $isEdit ? 'Edit' : 'Create' }} Quote
         </h2>
     </x-slot>
 
@@ -14,18 +14,18 @@
         <div class="alert alert-success">{{ session('message') }}</div>
     @endif
     <div class="mx-auto w-3/4 bg-gray-200 py-6 sm:px-4 lg:px-15">
-        <h1 class="font-semibold text-xl text-gray-800 m-10 text-center">{{ $isEdit ? 'Edit' : 'Create' }} Quote</h1>
+        <h1 class="font-semibold text-xl text-gray-800 m-10 text-left"> Quote</h1>
 
         
         <form wire:submit.prevent="save">      <!-- Quote Information -->
-
+            
+            
             
             <x-elements.input 
                 for='SAE' 
                 label='quoted by' 
                 type='text' 
                 wiremodel='SAE'
-                currentValue="{{$this->quote->SAE}}"
                 :error="$errors->first('SAE')"  
                 >
             </x-elements.input>
@@ -34,7 +34,7 @@
             for='customer_name' 
             label='Customer Name' 
             type='text' 
-            wiremodel='{{$this->quote->customer_name}}' 
+            wiremodel='customer_name' 
             :error="$errors->first('customer_name')" 
             
             >
@@ -55,7 +55,7 @@
             type='date' 
             wiremodel='date_entry' 
             :error="$errors->first('date_entry')" 
-            currentValue="{{$this->quote->date_entry}}" >
+             >
             </x-elements.input>
 
             <x-elements.input 
@@ -64,13 +64,21 @@
             type='text' 
             wiremodel='comments' 
             :error="$errors->first('comments')" 
-            currentValue="{{$this->quote->comments}}" >
+            >
             </x-elements.input>
 
 
             <div>
+                <div class=" my-8 border-t-2 border-gray-500"></div>
+
                 <h4 class="text-lg leading-6 font-medium text-gray-900 mt-4">Quote Lines</h4>
                 @foreach($quoteLines as $index => $line)
+
+                
+
+                <div class=" my-8 border-t-2 border-gray-500"></div>
+
+                    <h3 class="font-semibold text-l text-gray-800 m-10 text-left"> Quote Line {{$index +1}}</h3>
 
                     <x-elements.option
                     :for="'product_' . $index"
@@ -100,15 +108,7 @@
 
 
 
-                    {{-- <x-elements.input 
-                    :for="'quoteLines.' . $index . '.price'"
-                    label='Price' 
-                    type='number'    
-                    :wiremodel="'quoteLines.'.$index.'.price'"
-                    >
-                    </x-elements.input> --}}
-
-                    <div class="mx-20 my-8">
+                    <div class="mx-20 >
                             <label for="quoteLines.{{$index}}.price" class="mt-8 w-full font-medium text-gray-700">Price : {{ $quoteLines[$index]['price'] }} USD per {{$quoteLines[$index]['UOM']}}</label>
                             <input  
                             type="number" 
@@ -120,25 +120,34 @@
                         @error('quoteLines.'.$index.'.price') <span class="error">{{ $message }}</span> @enderror
                     </div>
 
-                    <div>
-                        <label for="MOQ_{{ $index }}">MOQ:</label>
-                        <input type="number" id="MOQ_{{ $index }}" wire:model.defer="quoteLines.{{ $index }}.MOQ" min="1">
-                        @error('quoteLines.'.$index.'.MOQ') <span class="error">{{ $message }}</span> @enderror
+                    <div class="mx-20 ">
+                        <label for="quoteLines.{{$index}}.MOQ" class="mt-8 w-full font-medium text-gray-700">Minimum Ordering Quantity</label>
+                        <input  
+                        type="number" 
+                        id="quoteLines.{{$index}}.MOQ" 
+                        wire:model="quoteLines.{{$index}}.MOQ" 
+                        class="my-2 w-3/4 block border-gray-500 border-2 rounded-md"
+                        />
+                    @error('quoteLines.'.$index.'.MOQ') <span class="error">{{ $message }}</span> @enderror
+                </div>
+
+                    <!-- Remove Button for Product Line -->
+                    <div class="px-20 mb-15">
+                            <x-button-light type="button" wire:click="removeQuoteLine({{ $index }})">Remove</x-button-light>
                     </div>
 
                 @endforeach
             </div>
-
-                <!-- Add Product Line Button -->
-                <div class="px-10 pb-5">
-                    <x-button-light type="button" wire:click="addQuoteLine" > Add Line </x-button-light>
-                    {{-- <button type="button" wire:click="addQuoteLine">Add Product Line</button> --}}
-               </div>
-
-
+                
+                
+            <div class=" my-8 border-t-2 border-gray-500"></div>
+            <!-- Add Product Line Button -->
+            <div class="px-10 pb-5">
+                <x-button-light type="button" wire:click="addQuoteLine" > Add Line </x-button-light>
+            </div>
             <!-- Submit Button -->
-            <div>
-                <button type="submit">Save Quote</button>
+            <div class="px-10 pb-5">
+                <x-button type="button" wire:click="submit" > Submit </x-button>
             </div>
         </form>
     </div>

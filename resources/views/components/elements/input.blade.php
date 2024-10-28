@@ -1,7 +1,7 @@
-@props(['type' => 'text', 'for', 'label', 'wiremodel', 'currentValue'=>false])
+@props(['type' => 'text', 'for', 'label', 'wiremodel'])
 
 
-<div class="mx-20 my-8">
+<div class="mx-20">
     <label for="{{$for}}" class="mt-8 w-full font-medium text-gray-700">{{$label}} </label>
     <input  type="{{$type}}" id="{{$for}}" wire:model="{{$wiremodel}}"  class="my-2 w-3/4 block border-gray-500 border-2 rounded-md">
     @error($for) <span class="error">{{ $message }}</span> @enderror
