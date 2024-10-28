@@ -66,7 +66,8 @@
             :error="$errors->first('comments')" 
             >
             </x-elements.input>
-
+             
+            {!!$this->textuel!!}
 
             <div>
                 <div class=" my-8 border-t-2 border-gray-500"></div>

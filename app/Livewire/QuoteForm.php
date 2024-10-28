@@ -17,7 +17,7 @@ class QuoteForm extends Component
     public $date_entry;
     public $date_valid;
     public $comments;
-    public $textuel
+    public $textuel;
 
     public $quote;
     public $quoteLines = [];
@@ -38,12 +38,12 @@ class QuoteForm extends Component
             $this->customer_email= $this->quote->customer_email;
             $this->comments= $this->quote->comments;
             
-            $this->textuel = ['Description: UltraLeather 900 & *UltraLeather 900 with ink resist.<br>
+            $this->textuel = 'Description: UltraLeather 900 & *UltraLeather 900 with ink resist.<br>
                                     Passes: Heat Release and Smoke Density: FAR25.853, Appendix F, Part IV and Part V, as well as 12 and 60 Second Vertical Flammability: FAR25.853, Appendix F, Part I (ii) and (i).<br>
                                     Roll Width: 54"<br>
                                     Average Roll Length: 33 LY<br>
                                     Shipping Terms: ExWorks Dallas Texas<br>
-                                    MOQ: 500 LY +/- 10%',]
+                                    MOQ: 500 LY +/- 10%';
 
             //dd($this->quote->customer_name);
 

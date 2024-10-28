@@ -90,19 +90,29 @@
             width: 100px;
             height: 100px; 
         }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <div class="adresse">
+        .header-image {
+            width: 25%;
+            height: auto;
+            background-image: url('{{ $imagepath }}');
+            background-repeat: no-repeat;
+            background-position: top right;
+        }
+
+        </style>
+    </head>
+    <body>
+        <header>
+        <div class="header-image"></div>
+            <div class="adresse">
             <p>Tapis Corporation</p>
             <p>28 Kaysal Court</p>
             <p>Armonk, NY, 10504</p>
             <p>Phone: +1 9142732737</p>
+            </div>
+            <h1>Tapis Quote Reference: {{ $quote->SAE }}-{{ $quote->id }}</h1>
         </div>
-        <img src="{{ public_path('storage/images/tapis-logo.png') }}" alt="Tapis Corporation Logo" class="block h-9 w-auto">
-        <h1>Tapis Quote Reference: {{ $quote->SAE }}-{{ $quote->id }}</h1>
-    </div>
+    </header>
+
 
     <div class="info">
         <p><strong>Date Quoted:</strong> {{ $quote->date_entry }}</p>
@@ -141,11 +151,11 @@
     </div>
     <div class="footer">
         @foreach($quote->quoteLines as $line)
-           <div>Line : {{ $line->id }} - {{ $line->product->name }} - {{ $line->part_number }} </div> 
+           <div></br>Line : {{ $line->id }} - {{ $line->product->name }} - {{ $line->part_number }} </div> 
            @if ($line->MOQ ==="LY")
-                {{$line->product->description_LY}}         
+                {!!$line->product->description_LY!!}         
            @else
-                {{$line->product->description_LM}}   
+                {!!$line->product->description_LM!!}   
            @endif
            <div></div>
         @endforeach

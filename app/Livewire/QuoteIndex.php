@@ -43,8 +43,9 @@ class QuoteIndex extends Component
         $SAE = $quote->SAE;
         $customer_name = $quote->customer_name;
         $date_entry = $quote->date_entry;
-        $pdf = PDF::loadView('quotes.pdf', compact('quote'))->setPaper('a4');
-
+        $imagepath = public_path('storage/images/tapis-logo.png');
+        
+        $pdf = PDF::loadView('quotes.pdf', compact('quote', 'imagepath'))->setPaper('a4');
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();
         }, 'quote  ' . $SAE .' '.$id.' - '.$customer_name.' -- '.$date_entry.'.pdf');
