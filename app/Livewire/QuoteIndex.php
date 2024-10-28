@@ -85,7 +85,7 @@ class QuoteIndex extends Component
 
             return view('livewire.quote-index', [
                 'quotes' => $quotes->get(),
-            ]);
+            ])->layout('layouts.app', ['heading' => 'Quotes']);
         }
 
 }

@@ -17,7 +17,8 @@ class QuoteForm extends Component
     public $date_entry;
     public $date_valid;
     public $comments;
-    
+
+
     public $quote;
     public $quoteLines = [];
     public $products = [];
@@ -30,6 +31,22 @@ class QuoteForm extends Component
             $this->quote = Quote::with('quoteLines.product')->findOrFail($id);
             $this->quoteLines = $this->quote->quoteLines->toArray();
             $this->isEdit = true;
+
+
+            $this->SAE= $this->quote->SAE;
+            $this->customer_name= $this->quote->customer_name;
+            $this->customer_email= $this->quote->customer_email;
+            $this->comments= $this->quote->comments;
+            
+      
+
+            //dd($SAE);
+
+            // Transform all quoteLines prices from cents to dollars
+            foreach ($this->quoteLines as &$line) {
+            $line['price'] = $line['price'] / 100;
+            }
+
         } else {
             $this->quote = new Quote();
             $this->quoteLines = [];
@@ -37,7 +54,7 @@ class QuoteForm extends Component
             $this->quoteLines[] = [
                 'product_id' => 1,
                 'part_number' => '',
-                'UOM' => '',
+                'UOM' => 'LY',
                 'price' =>'',
                 'MOQ' =>'',
             ];
@@ -59,7 +76,7 @@ class QuoteForm extends Component
         $this->quoteLines[] =  [
             'product_id' => 1,
             'part_number' => '',
-            'UOM' => '',
+            'UOM' => 'LY',
             'price' =>'',
             'MOQ' =>'',
         ];
@@ -74,6 +91,8 @@ class QuoteForm extends Component
 
     public function save()
     {
+
+      
         // Validate the quote and product lines
         $this->validate([
             'customer_name' => 'required|string|max:255',
@@ -88,7 +107,12 @@ class QuoteForm extends Component
             'quoteLines.*.MOQ' => 'required|integer|min:1',
         ]);
 
-        
+       
+        // Transform all quoteLines prices from dollars to cents
+                foreach ($this->quoteLines as &$line) {
+                    $line['price'] = $line['price'] * 100;
+                }
+        dd($this->quoteLines);  
 
         \DB::transaction(function () {
             // Create the quote
@@ -141,6 +165,6 @@ class QuoteForm extends Component
     {
         
         // return view('livewire.quote-form')->layout('components.layout', ['heading' => 'Create Quote']);
-        return view('livewire.quote-form');
+        return view('livewire.quote-form')->layout('layouts.app', ['heading' => 'Create Quote']);
     }
 }

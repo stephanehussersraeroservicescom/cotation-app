@@ -100,7 +100,7 @@
             <p>Armonk, NY, 10504</p>
             <p>Phone: +1 9142732737</p>
         </div>
-        <img src="{{ public_path('storage/tapis-logo.png') }}" alt="Tapis Corporation Logo">
+        <img src="{{ public_path('storage/images/tapis-logo.png') }}" alt="Tapis Corporation Logo" class="block h-9 w-auto">
         <h1>Tapis Quote Reference: {{ $quote->SAE }}-{{ $quote->id }}</h1>
     </div>
 
@@ -152,7 +152,7 @@
     </div>
     <div class="footnote">
         <div class="qrc" style="flex: 0; text-align: right; display: flex; align-items: center;">
-            <img src="{{ public_path('storage/qr-code.png') }}" alt="QR Code">
+            <img src="{{ public_path('storage/images/qr-code.png') }}" alt="Tapis Corporation Logo" class="block h-9 w-auto">
         </div>
         <div class="fntext" style="flex: 1; text-align: left; display: flex; align-items: center;">
             <p>Please refer to our terms and conditions on our website or by scanning the QR-Code</p>

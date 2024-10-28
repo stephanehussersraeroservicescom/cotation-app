@@ -1,21 +1,32 @@
 
 
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Create Quote') }}
+        </h2>
+    </x-slot>
+
+
+
+
 <div>
     @if (session()->has('message'))
         <div class="alert alert-success">{{ session('message') }}</div>
     @endif
     <div class="mx-auto w-3/4 bg-gray-200 py-6 sm:px-4 lg:px-15">
-        <h1 class="pt-20 m-10 text-center text-lg">{{ $isEdit ? 'Edit' : 'Create' }} Quote</h1>
+        <h1 class="font-semibold text-xl text-gray-800 m-10 text-center">{{ $isEdit ? 'Edit' : 'Create' }} Quote</h1>
 
-        <form wire:submit.prevent="save">
-            <!-- Quote Information -->
+        
+        <form wire:submit.prevent="save">      <!-- Quote Information -->
+
+            
             <x-elements.input 
                 for='SAE' 
                 label='quoted by' 
                 type='text' 
-                wiremodel='SAE' 
-                :error="$errors->first('SAE')" 
+                wiremodel='SAE'
                 currentValue="{{$this->quote->SAE}}"
+                :error="$errors->first('SAE')"  
                 >
             </x-elements.input>
 
@@ -23,9 +34,10 @@
             for='customer_name' 
             label='Customer Name' 
             type='text' 
-            wiremodel='customer_name' 
+            wiremodel='{{$this->quote->customer_name}}' 
             :error="$errors->first('customer_name')" 
-            currentValue="{{$this->quote->customer_name}}" >
+            
+            >
             </x-elements.input>
 
             <x-elements.input 
@@ -34,7 +46,7 @@
             type='email' 
             wiremodel='customer_email' 
             :error="$errors->first('customer_email')" 
-            currentValue="{{$this->quote->customer_email}}" >
+             >
             </x-elements.input>
 
             <x-elements.input 
@@ -52,74 +64,8 @@
             type='text' 
             wiremodel='comments' 
             :error="$errors->first('comments')" 
-            currentValue="{{$this->quote->date_entry}}" >
+            currentValue="{{$this->quote->comments}}" >
             </x-elements.input>
-
-            {{-- <div>
-                <label for="date_valid">Date Valid (1 month from Date Entry):</label>
-                <input type="date" id="date_valid" wire:model.defer="date_valid" readonly>
-                @error('date_valid') <span class="error">{{ $message }}</span> @enderror
-            </div> --}}
-
-            {{-- <div>
-                <label for="comments">Comments:</label>
-                <textarea id="comments" wire:model.defer="comments"></textarea>
-            </div> --}}
-
-
-             <!-- Product Lines -->
-            {{-- <div class="bg-slate-300">
-                <h3 class="px-10 py-5 w-full font-medium text-gray-700">Product Lines</h3>
-
-
-                <div class="mx-20 my-8">
-                    @foreach($quoteLines as $index => $quoteLine)
-                        <div wire:key="product-line-{{ $index }}">
-                            <div>
-                                <label for="product_id_{{ $index }}">Product:</label>
-                                <select id="product_id_{{ $index }}" wire:model.defer="quoteLines.{{ $index }}.product_id">
-                                    <option value="">Select a Product</option>
-                                    @foreach($products as $product)
-                                        <option value="{{ $product['id'] }}">{{ $product['product'] }}</option>
-                                    @endforeach
-                                </select>
-                                @error('quoteLines.'.$index.'.product_id') <span class="error">{{ $message }}</span> @enderror
-                            </div>
-                            <div>
-                                <label for="part_number_{{ $index }}">Part Number:</label>
-                                <input type="text" id="part_number_{{ $index }}" wire:model.defer="quoteLines.{{ $index }}.part_number">
-                                @error('quoteLines.'.$index.'.part_number') <span class="error">{{ $message }}</span> @enderror
-                            </div>
-
-                            <div>
-                                <label for="UOM_{{ $index }}">Unit of Measure:</label>
-                                <select id="UOM_{{ $index }}" wire:model.defer="quoteLines.{{ $index }}.UOM">
-                                    <option value="EACH">EACH</option>
-                                    <option value="LY">LY</option>
-                                    <option value="LM">LM</option>
-                                </select>
-                                @error('quoteLines.'.$index.'.UOM') <span class="error">{{ $message }}</span> @enderror
-                            </div>
-
-                            <div>
-                                <label for="price_{{ $index }}">Price:</label>
-                                <input type="number" step="0.01" id="price_{{ $index }}" wire:model.defer="quoteLines.{{ $index }}.price">
-                                @error('quoteLines.'.$index.'.price') <span class="error">{{ $message }}</span> @enderror
-                            </div>
-
-                            <div>
-                                <label for="MOQ_{{ $index }}">MOQ:</label>
-                                <input type="number" id="MOQ_{{ $index }}" wire:model.defer="quoteLines.{{ $index }}.MOQ" min="1">
-                                @error('quoteLines.'.$index.'.MOQ') <span class="error">{{ $message }}</span> @enderror
-                            </div>
-
-                            <!-- Remove Button for Product Line -->
-                            <button type="button" wire:click="removeQuoteLine({{ $index }})">Remove</button>
-                        </div>
-                        <hr>
-                    @endforeach
-                </div>
-            </div> --}}
 
 
             <div>
@@ -143,41 +89,34 @@
                     >
                     </x-elements.input>
 
-                    <x-elements.inputlive 
-                    :for="'quoteLines.' . $index . '.UOM'"
-                    label='Unit of Measure' 
-                    type='text' 
-                    :wiremodel="'quoteLines.'.$index.'.UOM'">
-                    </x-elements.inputlive>
 
-                    {{-- <div class="mt-2">
-                        <label for="product_{{ $index }}" class="block text-sm font-medium text-gray-700">Product</label>
-                        <select wire:model="quoteLines.{{ $index }}.product_id" id="product_{{ $index }}" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            @foreach($products as $product)
-                                <option value="{{ $product['id'] }}">{{ $product['product'] }}</option>
-                            @endforeach
-                        </select>
-                        <label for="quantity_{{ $index }}" class="block text-sm font-medium text-gray-700 mt-2">Quantity</label>
-                        <input type="number" wire:model="quoteLines.{{ $index }}.quantity" id="quantity_{{ $index }}" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                    </div> --}}
-                    {{-- <div>
-                        <label for="part_number_{{ $index }}">Part Number:</label>
-                        <input type="text" id="part_number_{{ $index }}" wire:model.defer="quoteLines.{{ $index }}.part_number">
-                        @error('quoteLines.'.$index.'.part_number') <span class="error">{{ $message }}</span> @enderror
-                    </div> --}}
+                    <x-elements.option
+                    :for="'UOM_' . $index"
+                    label='Unit of  Measure'
+                    :wiremodel="'quoteLines.' . $index . '.UOM'"  >
+                    <option value="LY">LY</option>
+                    <option value="LM">LM</option>
+                    </x-elements.option>
 
-                    <div>
-                        <label for="UOM_{{ $index }}">Unit of Measure:</label>
-                        <select id="UOM_{{ $index }}" wire:model.defer="quoteLines.{{ $index }}.UOM">
-                            <option value="LY">LY</option>
-                            <option value="LM">LM</option>
-                        </select>
-                        @error('quoteLines.'.$index.'.UOM') <span class="error">{{ $message }}</span> @enderror
-                    </div>
 
-                    <div>
-                        <label for="price_{{ $index }}">Price:</label>
-                        <input type="number" step="0.01" id="price_{{ $index }}" wire:model.defer="quoteLines.{{ $index }}.price">
+
+                    {{-- <x-elements.input 
+                    :for="'quoteLines.' . $index . '.price'"
+                    label='Price' 
+                    type='number'    
+                    :wiremodel="'quoteLines.'.$index.'.price'"
+                    >
+                    </x-elements.input> --}}
+
+                    <div class="mx-20 my-8">
+                            <label for="quoteLines.{{$index}}.price" class="mt-8 w-full font-medium text-gray-700">Price : {{ $quoteLines[$index]['price'] }} USD per {{$quoteLines[$index]['UOM']}}</label>
+                            <input  
+                            type="number" 
+                            id="quoteLines.{{$index}}.price" 
+                            step="0.01"
+                            wire:model="quoteLines.{{$index}}.price" 
+                            class="my-2 w-3/4 block border-gray-500 border-2 rounded-md"
+                            />
                         @error('quoteLines.'.$index.'.price') <span class="error">{{ $message }}</span> @enderror
                     </div>
 
