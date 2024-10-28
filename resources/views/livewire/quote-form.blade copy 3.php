@@ -129,26 +129,12 @@
                     <x-elements.option
                     :for="'product_' . $index"
                     label='Product'
-                    :wiremodel="'quoteLines.' . $index . '.product_id'"  >
-                        @foreach($products as $product)                            
-                            <option value="{{ $product['id'] }}">{{ $product['product'] }}</option>
-                        @endforeach
+                    :wiremodel="'quoteLines.' . $index . '.product_id'" 
+                    :error="$errors->first("'quoteLines.' . $index . '.product_id'" )" 
+                    :currentValue="'quoteLines.' . $index . '.product_id'" >
                     </x-elements.option>
 
-                    <x-elements.input 
-                    :for="'quoteLines.' . $index . '.part_number'"
-                    label='Part number' 
-                    type='text' 
-                    :wiremodel="'quoteLines.'.$index.'.part_number'"
-                    >
-                    </x-elements.input>
 
-                    <x-elements.inputlive 
-                    :for="'quoteLines.' . $index . '.UOM'"
-                    label='Unit of Measure' 
-                    type='text' 
-                    :wiremodel="'quoteLines.'.$index.'.UOM'">
-                    </x-elements.inputlive>
 
                     {{-- <div class="mt-2">
                         <label for="product_{{ $index }}" class="block text-sm font-medium text-gray-700">Product</label>
@@ -160,11 +146,11 @@
                         <label for="quantity_{{ $index }}" class="block text-sm font-medium text-gray-700 mt-2">Quantity</label>
                         <input type="number" wire:model="quoteLines.{{ $index }}.quantity" id="quantity_{{ $index }}" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                     </div> --}}
-                    {{-- <div>
+                    <div>
                         <label for="part_number_{{ $index }}">Part Number:</label>
                         <input type="text" id="part_number_{{ $index }}" wire:model.defer="quoteLines.{{ $index }}.part_number">
                         @error('quoteLines.'.$index.'.part_number') <span class="error">{{ $message }}</span> @enderror
-                    </div> --}}
+                    </div>
 
                     <div>
                         <label for="UOM_{{ $index }}">Unit of Measure:</label>

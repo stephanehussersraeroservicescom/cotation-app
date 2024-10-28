@@ -34,20 +34,35 @@ class QuoteForm extends Component
             $this->quote = new Quote();
             $this->quoteLines = [];
             $this->isEdit = false;
-            //dd($this->quoteLines);
+            $this->quoteLines[] = [
+                'product_id' => 1,
+                'part_number' => '',
+                'UOM' => '',
+                'price' =>'',
+                'MOQ' =>'',
+            ];
+            
         }
         // Load all products for the dropdown
         $this->products = Product::all()->toArray();
-        //dd($this->products);
+        
         // Set default values for date_entry (today) and date_valid (1 month from today)
         $this->date_entry = Carbon::today()->toDateString();
         $this->date_valid = Carbon::today()->addMonth()->toDateString();
+
+        //dd($this->quote->quoteLines[0]->part_number);
     }
 
     public function addQuoteLine()
     {
         // Add a new empty product line
-        $this->quoteLines[] = [];
+        $this->quoteLines[] =  [
+            'product_id' => 1,
+            'part_number' => '',
+            'UOM' => '',
+            'price' =>'',
+            'MOQ' =>'',
+        ];
     }
 
     public function removeQuoteLine($index)
@@ -62,16 +77,18 @@ class QuoteForm extends Component
         // Validate the quote and product lines
         $this->validate([
             'customer_name' => 'required|string|max:255',
-            'customer_email' => 'nullable|email',
+            'customer_email' => 'required|email',
             'date_entry' => 'required|date',
             'date_valid' => 'required|date|after_or_equal:date_entry',
             'quoteLines' => 'required|array|min:1',
             'quoteLines.*.product_id' => 'required|exists:products,id',
             'quoteLines.*.part_number' => 'required|string|max:255',
-            'quoteLines.*.UOM' => 'required|in:LY,LM,EACH',
+            'quoteLines.*.UOM' => 'required|in:LY,LM',
             'quoteLines.*.price' => 'required|numeric|min:0',
             'quoteLines.*.MOQ' => 'required|integer|min:1',
         ]);
+
+        
 
         \DB::transaction(function () {
             // Create the quote
@@ -93,6 +110,31 @@ class QuoteForm extends Component
         session()->flash('message', 'Quote and product lines saved successfully.');
 
         return redirect()->route('quotes.index');
+    }
+
+
+    protected function messages()
+    {
+        return [
+            'quote.customer_name.required' => 'The customer name is required.',
+            'quote.customer_email.required' => 'The customer email is required.',
+            'quote.customer_email.email' => 'The customer email must be a valid email address.',
+            'date_entry.required' => 'The entry date is required.',
+            'date_valid.required' => 'The valid date is required.',
+            'date_valid.after_or_equal' => 'The valid date must be after or equal to the entry date.',
+            'quoteLines.required' => 'At least one quote line is required.',
+            'quoteLines.*.product_id.required' => 'The product is required.',
+            'quoteLines.*.product_id.exists' => 'The selected product does not exist.',
+            'quoteLines.*.part_number.required' => 'The part number is required.',
+            'quoteLines.*.UOM.required' => 'The unit of measure is required.',
+            'quoteLines.*.UOM.in' => 'The unit of measure must be either LY or LM.',
+            'quoteLines.*.price.required' => 'The price is required.',
+            'quoteLines.*.price.numeric' => 'The price must be a number.',
+            'quoteLines.*.price.min' => 'The price must be at least 0.',
+            'quoteLines.*.MOQ.required' => 'The MOQ is required.',
+            'quoteLines.*.MOQ.integer' => 'The MOQ must be an integer.',
+            'quoteLines.*.MOQ.min' => 'The MOQ must be at least 1.',
+        ];
     }
 
     public function render()

@@ -6,7 +6,8 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-mark class="block h-9 w-auto" />
+                        <img src="{{ public_path('storage/tapis-logo.png') }}" alt="Tapis Corporation Logo">
+                        {{-- <x-application-mark class="block h-9 w-auto" /> --}}
                     </a>
                 </div>
 
@@ -15,6 +16,17 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link href="{{route('welcome')}}" :active="request()->routeIs('welcome')" >
+                        {{ __('Welcome') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{route('quotes.index')}}" :active="request()->routeIs('quotes.index')" >
+                        {{ __('All Quotes') }}
+                    </x-nav-link>                    
+                    <x-nav-link href="{{route('quotes.form')}}" :active="request()->routeIs('quotes.form')" >
+                        {{ __('New Quote') }}
+                    </x-nav-link>
+
+
                 </div>
             </div>
 
