@@ -3,6 +3,13 @@
 <head>
     <title>Quote PDF</title>
     <style>
+        @page {
+            margin-top: 20px; /* Adds space for the header */
+            margin-bottom: 20px; /* Adds space for the footer, if needed */
+            
+        }
+
+
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -18,7 +25,7 @@
             width: 210px;
         }
         .header h1 {
-            margin-top: 90px;
+            margin-top: 80px;
             padding: 0;
             font-size: 120%;
         }
@@ -30,11 +37,14 @@
             margin: 0;
             padding: 0;
             line-height: 1.2;
+            font-size: 100%;
             text-align: left;
+            top: -60px;
         }
         .info p {
             margin: 0;
             padding: 0;
+            font-size:90%;
         }
         .table-container {
             margin-top: 20px;
@@ -48,7 +58,7 @@
             font-size: 70%;
         }
         .table th, .table td {
-            padding: 8px;
+            padding: 5px;
             text-align: left;
         }
         .table th {
@@ -91,24 +101,28 @@
             height: 100px; 
         }
         .header-image {
-            width: 25%;
-            height: auto;
-            background-image: url('{{ $imagepath }}');
-            background-repeat: no-repeat;
-            background-position: top right;
+            position: fixed;
+            top: 25px; /* Position it above the page's content */
+            left: 0;
+            right: 0;
+            height: 50px;
+            text-align: right;
         }
 
         </style>
     </head>
     <body>
         <header>
-        <div class="header-image"></div>
+        <div class="header-image"><img src="{{ public_path('storage/images/tapis-logo.png') }}" alt="Tapis Corporation Logo" style=" height: 70px;" class="block h-9 w-auto"></div>
+        
             <div class="adresse">
             <p>Tapis Corporation</p>
-            <p>28 Kaysal Court</p>
+            <p>53 Old Route 22</p>
             <p>Armonk, NY, 10504</p>
             <p>Phone: +1 9142732737</p>
             </div>
+        </br>
+    </br>
             <h1>Tapis Quote Reference: {{ $quote->SAE }}-{{ $quote->id }}</h1>
         </div>
     </header>
@@ -137,22 +151,31 @@
                 @foreach($quote->quoteLines as $line)
                 <tr>
                     <td>{{ $line->id }}</td>
-                    <td>{{ $line->product->name }}</td>
+                    <td>{{ $line->product->product }}</td>
                     <td>{{ $line->part_number }}</td>
                     <td>{{ $line->MOQ }}</td>
                     <td>{{ $line->UOM }}</td>
                     <td>12 to 15 weeks</td>
                     {{-- <td>{{ $line->lead_time }}</td> --}}
-                    <td>USD {{ $line->price /100 }}</td>
+                    <td>USD {{ number_format($line->price / 100, 2) }} / {{ $line->UOM }}</td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
     </div>
+    <div>
+    </br>
+        <div style="font-size:70%">Payment Terms : {{ $quote->payment_terms }}</div>
+        <div style="font-size:70%" >Shipping Terms : {{ $quote->shipping_terms }}</div>
+        @if ($quote->comments)
+            <p style="font-size:70%">Notes : {{ $quote->comments }}</p>
+        @endif
+
+    </div>
     <div class="footer">
         @foreach($quote->quoteLines as $line)
-           <div></br>Line : {{ $line->id }} - {{ $line->product->name }} - {{ $line->part_number }} </div> 
-           @if ($line->MOQ ==="LY")
+           <div></br>Line {{ $line->id }} - {{ $line->product->product}} - {{ $line->part_number }} </div> 
+           @if ($line->UOM ==="LY")
                 {!!$line->product->description_LY!!}         
            @else
                 {!!$line->product->description_LM!!}   
@@ -160,6 +183,7 @@
            <div></div>
         @endforeach
     </div>
+
     <div class="footnote">
         <div class="qrc" style="flex: 0; text-align: right; display: flex; align-items: center;">
             <img src="{{ public_path('storage/images/qr-code.png') }}" alt="Tapis Corporation Logo" class="block h-9 w-auto">

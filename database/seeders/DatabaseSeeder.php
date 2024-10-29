@@ -29,13 +29,11 @@ class DatabaseSeeder extends Seeder
             'description_LY' => 'Passes: Heat Release and Smoke Density: FAR25.853, Appendix F, Part IV and Part V, as well as 12 and 60 Second Vertical Flammability: FAR25.853, Appendix F, Part I (ii) and (i).<br>
                                     Roll Width: 54"<br>
                                     Average Roll Length: 33 LY<br>
-                                    Shipping Terms: ExWorks Dallas Texas<br>
                                     MOQ: 500 LY +/- 10%',
 
             'description_LM' => 'Passes: Heat Release and Smoke Density: FAR25.853, Appendix F, Part IV and Part V, as well as 12 and 60 Second Vertical Flammability: FAR25.853, Appendix F, Part I (ii) and (i).<br>
                                     Roll Width: 54"<br>
                                     Average Roll Length: 30 LM<br>
-                                    Shipping Terms: ExWorks Dallas Texas<br>
                                     MOQ: 450 LM +/- 10%',
         ]);
 
@@ -44,13 +42,11 @@ class DatabaseSeeder extends Seeder
             'description_LY' => 'Passes: Heat Release and Smoke Density: FAR25.853, Appendix F, Part IV and Part V, as well as 12 and 60 Second Vertical Flammability: FAR25.853, Appendix F, Part I (ii) and (i).<br>
                                     Roll Width: 54"<br>
                                     Average Roll Length: 33 LY<br>
-                                    Shipping Terms: ExWorks Dallas Texas<br>
                                     MOQ: 500 LY +/- 10%',
 
             'description_LM' => 'Passes: Heat Release and Smoke Density: FAR25.853, Appendix F, Part IV and Part V, as well as 12 and 60 Second Vertical Flammability: FAR25.853, Appendix F, Part I (ii) and (i).<br>
                                     Roll Width: 54"<br>
                                     Average Roll Length: 30 LM<br>
-                                    Shipping Terms: ExWorks Dallas Texas<br>
                                     MOQ: 450 LM +/- 10%',
         ]);
 
@@ -60,14 +56,12 @@ class DatabaseSeeder extends Seeder
                                     Average Roll Length: 33 linear yards.<br>
                                     Material width : 54”.<br>
                                     MOQ custom product : 200 LY.<br>
-                                    Lead time : 14 to 16 weeks.<br>
-                                    Shipping terms: Ex-Works Texas.<br>',
+                                    Lead time : 14 to 16 weeks.<br>',
             'description_LM' => 'Passes: Heat Release and Smoke Density: FAR25.853, Appendix F, Part IV and Part V, as well as 12  and 60 Second Vertical Flammability: FAR25.853, Appendix F, Part I (ii) and (i).<br>
                                     Average Roll Length: 30 LM.<br>
                                     Material width : 54”.<br>
                                     MOQ custom product : 181 LM.<br>
-                                    Lead time : 14 to 16 weeks.<br>
-                                    Shipping terms: Ex-Works Texas.<br>',
+                                    Lead time : 14 to 16 weeks.<br>',
         ]);
 
 
@@ -76,7 +70,7 @@ class DatabaseSeeder extends Seeder
         // Create 10 quotes
         Quote::factory(30)->create()->each(function ($quote) use ($products) {
             // For each quote, create a random number (1 to 5) of quote lines
-            $quoteLineCount = rand(1, 6);
+            $quoteLineCount = rand(1, 3);
 
             QuoteLine::factory($quoteLineCount)->create([
                 'quote_id' => $quote->id,

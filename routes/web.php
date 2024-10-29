@@ -31,7 +31,7 @@ Route::get('/form', function () {
 });
 
 Route::get('/quote-form', QuoteForm::class)->name('quotes.form');
-Route::get('/quote-form/{id?}', QuoteForm::class)->name('quote.form');
+Route::get('/quote-form/{id?}', QuoteForm::class)->name('quote.edit');
 
 Route::get('/quote/{id}/preview', [QuoteController::class, 'preview'])->name('quote.preview');
 Route::post('/quote/{id}/send', [QuoteController::class, 'send'])->name('quote.send');

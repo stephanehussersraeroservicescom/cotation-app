@@ -13,22 +13,22 @@
     @if (session()->has('message'))
         <div class="alert alert-success">{{ session('message') }}</div>
     @endif
-    <div class="mx-auto w-3/4 bg-gray-200 py-6 sm:px-4 lg:px-15">
-        <h1 class="font-semibold text-xl text-gray-800 m-10 text-left"> Quote</h1>
+    <div class="flex justify-center">
+        <div class="lg:w-1/2 md:w-3/4 sm:w-full xs:w-full bg-gray-200 py-6 sm:px-4 lg:px-15">      
+            <h1 class="font-semibold text-xl text-gray-800 m-10 text-left"> Quote</h1>
 
         
-        <form wire:submit.prevent="save">      <!-- Quote Information -->
+        <form wire:submit.prevent="save">      
+            <!-- Quote Information -->
             
-            
-            
-            <x-elements.input 
-                for='SAE' 
-                label='quoted by' 
-                type='text' 
-                wiremodel='SAE'
-                :error="$errors->first('SAE')"  
-                >
-            </x-elements.input>
+            {{-- <x-elements.input 
+            for='SAE' 
+            label='quoted by' 
+            type='text' 
+            wiremodel='SAE'
+            :error="$errors->first('SAE')"  
+            >
+            </x-elements.input> --}}
 
             <x-elements.input 
             for='customer_name' 
@@ -36,7 +36,6 @@
             type='text' 
             wiremodel='customer_name' 
             :error="$errors->first('customer_name')" 
-            
             >
             </x-elements.input>
 
@@ -67,7 +66,6 @@
             >
             </x-elements.input>
              
-            {!!$this->textuel!!}
 
             <div>
                 <div class=" my-8 border-t-2 border-gray-500"></div>
@@ -109,25 +107,25 @@
 
 
 
-                    <div class="mx-20 >
+                    <div class="mx-5 my-6 md:mx-15 lg:mx-20 " >
                             <label for="quoteLines.{{$index}}.price" class="mt-8 w-full font-medium text-gray-700">Price : {{ $quoteLines[$index]['price'] }} USD per {{$quoteLines[$index]['UOM']}}</label>
                             <input  
                             type="number" 
                             id="quoteLines.{{$index}}.price" 
                             step="0.01"
-                            wire:model="quoteLines.{{$index}}.price" 
-                            class="my-2 w-3/4 block border-gray-500 border-2 rounded-md"
+                            wire:model.blur="quoteLines.{{$index}}.price" 
+                            class="my-2 w-full block border-gray-500 border-2 rounded-md"
                             />
                         @error('quoteLines.'.$index.'.price') <span class="error">{{ $message }}</span> @enderror
                     </div>
 
-                    <div class="mx-20 ">
+                    <div class="mx-5 my-6 md:mx-15 lg:mx-20 ">
                         <label for="quoteLines.{{$index}}.MOQ" class="mt-8 w-full font-medium text-gray-700">Minimum Ordering Quantity</label>
                         <input  
                         type="number" 
                         id="quoteLines.{{$index}}.MOQ" 
                         wire:model="quoteLines.{{$index}}.MOQ" 
-                        class="my-2 w-3/4 block border-gray-500 border-2 rounded-md"
+                        class="my-2 w-full block border-gray-500 border-2 rounded-md"
                         />
                     @error('quoteLines.'.$index.'.MOQ') <span class="error">{{ $message }}</span> @enderror
                 </div>
@@ -148,7 +146,7 @@
             </div>
             <!-- Submit Button -->
             <div class="px-10 pb-5">
-                <x-button type="button" wire:click="submit" > Submit </x-button>
+                <x-button type="button" wire:click="save" > Submit </x-button>
             </div>
         </form>
     </div>

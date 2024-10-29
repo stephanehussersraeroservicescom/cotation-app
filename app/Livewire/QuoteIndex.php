@@ -27,7 +27,7 @@ class QuoteIndex extends Component
     //************************************************************************** */
     public function editQuote($id)
     {
-        return redirect()->route('quote.form', $id);
+        return redirect()->route('quote.edit', $id);
     }
 
 
@@ -43,7 +43,7 @@ class QuoteIndex extends Component
         $SAE = $quote->SAE;
         $customer_name = $quote->customer_name;
         $date_entry = $quote->date_entry;
-        $imagepath = public_path('storage/images/tapis-logo.png');
+        $imagepath = public_path('storage/images/tapis-logo-small.png');
         
         $pdf = PDF::loadView('quotes.pdf', compact('quote', 'imagepath'))->setPaper('a4');
         return response()->streamDownload(function () use ($pdf) {
