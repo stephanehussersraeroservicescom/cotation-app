@@ -19,9 +19,35 @@ class DatabaseSeeder extends Seeder
      
 
         User::factory()->create([
-            'name' => 'stef',
+            'name' => 'Stephane',
+            'initials' => 'SH',
+            'role' => 'supervisor',
             'email' => 'stephane.paris75@jmail.cj',
             'password'=> bcrypt('password'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Jason',
+            'initials' => 'JE',
+            'role' => 'standard',
+            'email' => 'jason.paris75@jmail.cj',
+            'password'=> bcrypt('password123'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Neil',
+            'initials' => 'NT',
+            'role' => 'standard',
+            'email' => 'neil.paris75@jmail.cj',
+            'password'=> bcrypt('password123'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Dominic',
+            'initials' => 'DD',
+            'role' => 'standard',
+            'email' => 'dominique.paris75@jmail.cj',
+            'password'=> bcrypt('password123'),
         ]);
 
         Product::create([

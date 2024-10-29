@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Quote;
 
 class Quote extends Model
 {
@@ -17,5 +18,10 @@ class Quote extends Model
     public function quoteLines()
     {
         return $this->HasMany(QuoteLine::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

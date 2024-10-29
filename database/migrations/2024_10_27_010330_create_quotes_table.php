@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('quotes', function (Blueprint $table) {
             $table->id();
-            $table->set('SAE', ['DD', 'JE', 'NT', 'SH']);
-            $table->string('customer_name')->nullable();
-            $table->string('customer_email')->nullable();
-            $table->date('date_entry')->nullable();
-            $table->date('date_valid')->nullable();
+            $table->foreignId('user_id');
+            $table->string('customer_name');
+            $table->string('customer_email');
+            $table->date('date_entry');
+            $table->date('date_valid');
             $table->string('shipping_terms');
             $table->string('payment_terms');
             $table->text('comments')->nullable();

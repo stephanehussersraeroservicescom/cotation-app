@@ -39,8 +39,10 @@ class QuoteIndex extends Component
 
     public function print($id)
     {
-        $quote = Quote::with('quoteLines.product')->findOrFail($id);
-        $SAE = $quote->SAE;
+        $quote = Quote::with(['quoteLines.product', 'user'])->findOrFail($id);
+
+        //dd($quote->user->initials);
+        $initials = $quote->user->initials;
         $customer_name = $quote->customer_name;
         $date_entry = $quote->date_entry;
         $imagepath = public_path('storage/images/tapis-logo-small.png');
@@ -48,7 +50,7 @@ class QuoteIndex extends Component
         $pdf = PDF::loadView('quotes.pdf', compact('quote', 'imagepath'))->setPaper('a4');
         return response()->streamDownload(function () use ($pdf) {
             echo $pdf->stream();
-        }, 'quote  ' . $SAE .' '.$id.' - '.$customer_name.' -- '.$date_entry.'.pdf');
+        }, 'quote  ' . $initials .' '.$id.' - '.$customer_name.' -- '.$date_entry.'.pdf');
     }
 
 
