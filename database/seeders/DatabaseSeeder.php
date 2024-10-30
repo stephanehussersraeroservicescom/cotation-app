@@ -51,7 +51,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Product::create([
-            'product' => 'UL 900',
+            'name' => 'UL 900',
             'description_LY' => 'Passes: Heat Release and Smoke Density: FAR25.853, Appendix F, Part IV and Part V, as well as 12 and 60 Second Vertical Flammability: FAR25.853, Appendix F, Part I (ii) and (i).<br>
                                     Roll Width: 54"<br>
                                     Average Roll Length: 33 LY<br>
@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Product::create([
-            'product' => 'UL 900 with IR',
+            'name' => 'UL 900 with IR',
             'description_LY' => 'Passes: Heat Release and Smoke Density: FAR25.853, Appendix F, Part IV and Part V, as well as 12 and 60 Second Vertical Flammability: FAR25.853, Appendix F, Part I (ii) and (i).<br>
                                     Roll Width: 54"<br>
                                     Average Roll Length: 33 LY<br>
@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Product::create([
-            'product' => 'BHCSS',
+            'name' => 'BHCSS',
             'description_LY' => 'Passes: Heat Release and Smoke Density: FAR25.853, Appendix F, Part IV and Part V, as well as 12  and 60 Second Vertical Flammability: FAR25.853, Appendix F, Part I (ii) and (i).<br>
                                     Average Roll Length: 33 linear yards.<br>
                                     Material width : 54”.<br>

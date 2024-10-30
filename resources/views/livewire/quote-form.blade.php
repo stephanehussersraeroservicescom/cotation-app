@@ -80,11 +80,11 @@
                     <h3 class="font-semibold text-l text-gray-800 m-10 text-left"> Quote Line {{$index +1}}</h3>
 
                     <x-elements.option
-                    :for="'product_' . $index"
+                    :for="'product_' . $index .'.product_id'"
                     label='Product'
                     :wiremodel="'quoteLines.' . $index . '.product_id'"  >
                         @foreach($products as $product)                            
-                            <option value="{{ $product['id'] }}">{{ $product['product'] }}</option>
+                            <option value="{{ $product['id'] }}">{{ $product['name'] }}</option>
                         @endforeach
                     </x-elements.option>
 

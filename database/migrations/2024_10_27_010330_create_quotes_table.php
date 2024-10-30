@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('customer_email');
             $table->date('date_entry');
             $table->date('date_valid');
-            $table->string('shipping_terms');
-            $table->string('payment_terms');
+            $table->string('shipping_terms')->default('Ex Works Dallas Texas')->nullable(false);
+            $table->string('payment_terms')->default('Pro Forma');
             $table->text('comments')->nullable();
             $table->timestamps();
         });
