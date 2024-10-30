@@ -7,7 +7,7 @@ use App\Livewire\QuoteIndex;
 use App\Http\Controllers\QuoteController;
 use App\Models\Quote;
 use App\Models\QuoteLine;
-use App\Livewire\TestRoute;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,7 +39,7 @@ Route::middleware([
 
 // Pas sur d en avoir besoin //
 Route::get('/quotes/{id}', ShowQuote::class)->name('quote.show');
-Route::get('/test',TestRoute::class)->name('test');
+
 
 
 

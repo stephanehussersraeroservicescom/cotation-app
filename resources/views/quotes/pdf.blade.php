@@ -151,7 +151,7 @@
                 @foreach($quote->quoteLines as $line)
                 <tr>
                     <td>{{ $line->id }}</td>
-                    <td>{{ $line->product->product }}</td>
+                    <td>{{ $line->product->name }}</td>
                     <td>{{ $line->part_number }}</td>
                     <td>{{ $line->MOQ }}</td>
                     <td>{{ $line->UOM }}</td>
