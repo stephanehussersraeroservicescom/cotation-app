@@ -132,8 +132,7 @@ class QuoteForm extends Component
                 $quote = Quote::findOrFail($this->quoteId);
 
 
-                // Authorize the user
-                $this->authorizeUser($quote);
+
 
 
                 $quote->update([
