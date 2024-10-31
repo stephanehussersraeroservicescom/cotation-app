@@ -17,12 +17,17 @@ class QuoteForm extends Component
     public $date_entry;
     public $date_valid;
     public $comments;
+    public $user;
+    public $userole;
 
-
+    public $quoteId;
+    public $removedQuoteLines = [];
     public $quote;
     public $quoteLines = [];
     public $products = [];
     public $isEdit = false;
+
+
 
 
     public function mount($id = null)
@@ -31,8 +36,9 @@ class QuoteForm extends Component
             $this->quote = Quote::with('quoteLines.product')->findOrFail($id);
             $this->quoteLines = $this->quote->quoteLines->toArray();
             $this->isEdit = true;
-
-
+            $this->quoteId = $this->quote->id;
+            $this->user = \Auth::id();
+            $this->userole = \Auth::user()->role;
             $this->SAE= $this->quote->SAE;
             $this->customer_name= $this->quote->customer_name;
             $this->customer_email= $this->quote->customer_email;
@@ -43,7 +49,14 @@ class QuoteForm extends Component
             $line['price'] = $line['price'] / 100;
             }
 
+            // Authorize the user
+
+            if ($this->user !== $this->quote->user_id && $this->userole!=='supervisor') {
+                abort(403, 'Unauthorized action.');
+            }
+
         } else {
+            $this->user = \Auth::id();
             $this->quote = new Quote();
             $this->quoteLines = [];
             $this->isEdit = false;
@@ -63,7 +76,7 @@ class QuoteForm extends Component
         $this->date_entry = Carbon::today()->toDateString();
         $this->date_valid = Carbon::today()->addMonth()->toDateString();
 
-        //dd($this->quote->quoteLines[0]->part_number);
+        //dd($this->user);
     }
 
     public function addQuoteLine()
@@ -80,9 +93,11 @@ class QuoteForm extends Component
 
     public function removeQuoteLine($index)
     {
-        // Remove the product line at the given index
+        if (isset($this->quoteLines[$index]['id'])) {
+            $this->removedQuoteLines[] = $this->quoteLines[$index]['id'];
+        }
         unset($this->quoteLines[$index]);
-        $this->quoteLines = array_values($this->quoteLines); // Re-index the array
+        $this->quoteLines = array_values($this->quoteLines); // Reindex the array
     }
 
     public function save()
@@ -108,22 +123,65 @@ class QuoteForm extends Component
                 foreach ($this->quoteLines as &$line) {
                     $line['price'] = $line['price'] * 100;
                 }
-        dd($this->quoteLines);  
+        //dd($this->quoteLines);  
 
         \DB::transaction(function () {
-            // Create the quote
-            $quote = Quote::create([
-                'SAE' => $this->SAE,
-                'customer_name' => $this->customer_name,
-                'customer_email' => $this->customer_email,
-                'date_entry' => $this->date_entry,
-                'date_valid' => $this->date_valid,
-                'comments' => $this->comments,
-            ]);
+            // Check if the quote exists
+            if ($this->quoteId) {
+                // Update the existing quote
+                $quote = Quote::findOrFail($this->quoteId);
 
-            // Save each product line associated with the quote
-            foreach ($this->quoteLines as $line) {
-                $quote->quoteLines()->create($line);
+
+                // Authorize the user
+                $this->authorizeUser($quote);
+
+
+                $quote->update([
+                    'user_id' => $this->user,
+                    'customer_name' => $this->customer_name,
+                    'customer_email' => $this->customer_email,
+                    'date_entry' => $this->date_entry,
+                    'date_valid' => $this->date_valid,
+                    'comments' => $this->comments,
+                ]);
+    
+                // Delete removed quote lines
+                if (!empty($this->removedQuoteLines)) {
+                    QuoteLine::whereIn('id', $this->removedQuoteLines)->delete();
+                }
+    
+                // Update existing quote lines and create new ones
+                foreach ($this->quoteLines as $line) {
+                    if (isset($line['id'])) {
+                        // Update existing quote line
+                        $quoteLine = QuoteLine::findOrFail($line['id']);
+                        $quoteLine->update([
+                            'product_id' => $line['product_id'],
+                            'part_number' => $line['part_number'],
+                            'UOM' => $line['UOM'],
+                            'price' => $line['price'],
+                            'MOQ' => $line['MOQ'],
+                        ]);
+                    } else {
+                        // Create new quote line
+                        $quote->quoteLines()->create($line);
+                    }
+                }
+            } else {
+                // Create a new quote
+                $quote = Quote::create([
+                    'user_id' => $this->user,
+                    'customer_name' => $this->customer_name,
+                    'customer_email' => $this->customer_email,
+                    'date_entry' => $this->date_entry,
+                    'date_valid' => $this->date_valid,
+                    'comments' => $this->comments,
+                ]);
+    
+                // Save each product line associated with the quote
+                foreach ($this->quoteLines as $line) {
+                    $quote->quoteLines()->create($line);
+                }
             }
         });
 

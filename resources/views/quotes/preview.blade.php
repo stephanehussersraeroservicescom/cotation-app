@@ -20,6 +20,7 @@
             <br />
             <p>Best regards</p>
             <br>
+            
             <p>{{ Auth::user()->name }}</p>
             <img src="{{ asset('storage/images/tapis-logo.png') }}" alt="Tapis Logo" style="width: 200px; height: auto;">
     </div>

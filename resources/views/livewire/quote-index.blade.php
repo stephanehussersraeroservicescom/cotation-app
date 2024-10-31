@@ -15,10 +15,10 @@
                 <!-- Livewire Search Row -->
                 <tr>
                     <td class="px-6 py-4 border-b border-gray-400">
-                        <input type="text" wire:model.live="searchId" placeholder="Search ID" class="mt-1 block w-full border border-gray-500 rounded-md shadow-sm">
+                        <input type="text" wire:model.live="searchId" placeholder="#" class="mt-1 block w-full border border-gray-500 rounded-md shadow-sm">
                     </td>
                     <td class="px-6 py-4 border-b border-gray-400">
-                        <input type="text" wire:model.live="searchSae" placeholder="Search SAE" class="mt-1 block w-full border border-gray-500 rounded-md shadow-sm">
+                        <input type="text" wire:model.live="searchInitials" placeholder="Search" class="mt-1 block w-full border border-gray-500 rounded-md shadow-sm">
                     </td>
                     <td class="px-6 py-4 border-b border-gray-400">
                         <input type="text" wire:model.live="searchCustomerName" placeholder="Search Customer" class="mt-1 block w-full border border-gray-500 rounded-md shadow-sm">
@@ -37,7 +37,7 @@
                 @foreach($quotes as $quote)
                 <tr wire:key="{{$quote->id}}">
                     <td class="px-6 py-4 whitespace-nowrap border-b border-gray-400">{{ $quote->id }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap border-b border-gray-400">{{ $quote->SAE }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap border-b border-gray-400">{{ $quote->user->initials }}</td>
                     <td class="px-6 py-4 whitespace-nowrap border-b border-gray-400">{{ $quote->customer_name }}</td>
                     <td class="px-6 py-4 whitespace-nowrap border-b border-gray-400">{{ $quote->date_entry }}</td>
                     <td class="px-6 py-4 whitespace-nowrap max-w-xs truncate border-b border-gray-400">{{ $quote->comments }}</td>
