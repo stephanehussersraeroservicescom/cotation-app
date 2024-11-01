@@ -8,9 +8,14 @@ use App\Http\Controllers\QuoteController;
 use App\Models\Quote;
 use App\Models\QuoteLine;
 
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('welcome');
+
+
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 })->name('welcome');
 
 Route::middleware([
