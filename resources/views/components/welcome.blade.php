@@ -22,7 +22,7 @@
         </div>
 
         <p class="mt-4 text-gray-500 text-sm leading-relaxed">
-            enter new quotations, review existing ones, and print or email them to your customers.
+            Enter new quotations, review existing ones, and print or email them to your customers.
         </p>
 
 
